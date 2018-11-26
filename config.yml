@@ -1,0 +1,10 @@
+user_id:
+quality_order_of_preference:
+  - 1080p60
+  - 720p60
+  - 1080p
+  - 720p
+  - 480p
+  - 360p
+  - 160p
+ask_on_startup: Yes

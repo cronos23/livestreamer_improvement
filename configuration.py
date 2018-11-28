@@ -1,6 +1,7 @@
 import yaml
 import requests
 import json
+from .util import CLIENT_ID
 
 
 class Configuration():
@@ -37,9 +38,15 @@ class Configuration():
     @staticmethod
     def __get_user_id():
         username = input("Please enter the name of your twitch.tv account: ")
-        user_id_api_address = "https://api.twitch.tv/helix/users?login=" + username
-        user_data = json.load(requests.get(user_id_api_address))
-        user_id = user_data.id
+        headers = {
+            'Client-ID': CLIENT_ID
+        }
+        params = {
+            'login': username
+        }
+        user_id_api_url = "https://api.twitch.tv/helix/users"
+        user_data_response = requests.get(user_id_api_url, params=params, headers=headers)
+        user_id = user_data_response.json()["data"][0]["id"]
         # TODO: error handling
         return user_id
 

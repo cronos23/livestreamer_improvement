@@ -1,10 +1,9 @@
 import yaml
 import requests
-import json
-from .util import CLIENT_ID
+from util import CLIENT_ID
 
 
-class Configuration():
+class Configuration:
     def __init__(self):
         self.__read_configuration()
 
@@ -17,17 +16,19 @@ class Configuration():
         return self._quality_order_of_preference
 
     def __read_configuration(self):
-        with open("config.yml", 'rw') as configfile:
+        with open("config.yml", 'r') as configfile:
             cfgdata = yaml.load(configfile)
             if cfgdata["ask_on_startup"]:
                 self.__user_configure()
-                yaml.dump({"user_id": self._user_id,
-                           "quality_order_of_preference": self._quality_order_of_preference,
-                           "ask_on_startup": "No"}, configfile)
             else:
                 self._user_id = cfgdata.user_id
                 self._quality_order_of_preference = cfgdata.quality_order_of_preference
-
+            configfile.close()
+        with open("config.yml", "w") as configfile:
+            yaml.dump({"user_id": self._user_id,
+                       "quality_order_of_preference": self._quality_order_of_preference,
+                       "ask_on_startup": "No"}, configfile)
+            configfile.close()
 
     def __user_configure(self):
         print("Your settings have not been configured yet. Set them here in the console,"
@@ -55,11 +56,11 @@ class Configuration():
         preferred_quality = False
         quality_list = ["160p", "360p", "480p", "720p", "1080p", "720p60", "1080p60"]
         while preferred_quality not in quality_list:
-            preferred_quality = input("Please enter your preferred stream quality. Leave blank for 1080p60 or enter s"
-                                      "to (s)how options")
+            preferred_quality = input("Please enter your preferred stream quality. Leave blank for 1080p60 or enter s "
+                                      "to (s)how options: ")
             if preferred_quality == "s":
                 for i in quality_list:
                     print(i)
             if not preferred_quality:
                 preferred_quality = "1080p60"
-        return quality_list[:(quality_list.index(preferred_quality))]
+        return quality_list[:(quality_list.index(preferred_quality)+1)]

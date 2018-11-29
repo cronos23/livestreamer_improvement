@@ -1,11 +1,24 @@
 import yaml
 import requests
+import os
 from util import HEADERS
 
 
 class Configuration:
     def __init__(self):
-        self.__read_configuration()
+        directory = os.path.join(os.environ['APPDATA'], "streamlink_helper")
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+        config_path = os.path.join(directory, "config.yml")
+        try:
+            f = open(config_path, "r")
+            f.close()
+        except FileNotFoundError:
+            configfile = open(config_path, "w+")
+            yaml.dump({"user_id": "", "ask_on_startup": True}, configfile)
+            configfile.close()
+
+        self.__read_configuration(config_path)
 
     @property
     def user_id(self):
@@ -15,8 +28,8 @@ class Configuration:
     def quality_order_of_preference(self):
         return self._quality_order_of_preference
 
-    def __read_configuration(self):
-        with open("config.yml", 'r') as configfile:
+    def __read_configuration(self, config_path):
+        with open(config_path, 'r') as configfile:
             cfgdata = yaml.load(configfile)
             if cfgdata["ask_on_startup"]:
                 self.__user_configure()
@@ -25,12 +38,10 @@ class Configuration:
             else:
                 self._user_id = cfgdata["user_id"]
                 self._quality_order_of_preference = cfgdata["quality_order_of_preference"]
-            configfile.close()
-        with open("config.yml", "w") as configfile:
+        with open(config_path, "w") as configfile:
             yaml.dump({"user_id": self._user_id,
                        "quality_order_of_preference": self._quality_order_of_preference,
                        "ask_on_startup": False}, configfile)
-            configfile.close()
 
     def __user_configure(self):
         print("Your settings have not been configured yet. Set them here in the console,"

@@ -12,7 +12,7 @@ class StreamlinkHelper:
         if not configuration.user_id:
             return
         currently_online = followscraper(configuration.user_id)
-        print("These streamers that you follow are currently online:")
+        print("\nThese streamers that you follow are currently online:\n")
         i = 0
         selection_list = []
         for name, url in currently_online.items():
@@ -21,7 +21,7 @@ class StreamlinkHelper:
             i += 1
         try:
             # TODO: Randomization when no number selected
-            number_selection = int(input("Choose a number and press enter to select stream:"))
+            number_selection = int(input("Choose a number and press enter to select stream: "))
             selected_stream = selection_list[number_selection]
             execute_streamlink_command(selected_stream, configuration)
         except ValueError:
@@ -29,5 +29,3 @@ class StreamlinkHelper:
         except IndexError:
             print("Please enter a number on the list.")
 
-
-main()

@@ -20,6 +20,7 @@ def followscraper(user_id):
 def create_stream_urls(follow_list):
     # TODO: Add game name, stream title
     live_api_url = "https://api.twitch.tv/helix/streams"
+    game_api_url = "https://api.twitch.tv/helix/games"
     base_url = "twitch.tv/"
     streams = []
     for follow_relation in follow_list:
@@ -30,14 +31,26 @@ def create_stream_urls(follow_list):
     online_streams_response = requests.get(live_api_url, params=params, headers=HEADERS)
     online_streams = {}
     for online_relation in online_streams_response.json()["data"]:
-        online_streams[online_relation["user_name"]] = base_url + online_relation["user_name"]
+        params = {
+            "id": online_relation["game_id"]
+        }
+        game_response = requests.get(game_api_url, params=params, headers=HEADERS)
+        try:
+            game = game_response.json()["data"][0]["name"]
+        except IndexError:
+            game = "N/A"
+        online_streams["{user} - {title} \n Streaming {game} to {viewer_count} viewers \n".format(
+            user=online_relation["user_name"],
+            title=online_relation["title"],
+            game=game,
+            viewer_count=online_relation["viewer_count"])] = base_url + online_relation["user_name"]
     return online_streams
 
 
 def execute_streamlink_command(stream_url, configuration):
     for quality in reversed(configuration.quality_order_of_preference):
         try:
-            subprocess.check_output("streamlink "+stream_url+" "+quality, shell=True)
+            subprocess.check_output("streamlink " + stream_url + " " + quality, shell=True)
             break
         except subprocess.CalledProcessError:
             pass

@@ -1,3 +1,6 @@
 venv
 .idea
 __pycache__
+build
+dist
+streamlink_helper.egg*

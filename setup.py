@@ -1,4 +1,4 @@
-from setuptools import setup, find_packages
+from setuptools import setup
 
 setup(
     name='streamlink_helper',
@@ -6,8 +6,9 @@ setup(
     entry_points={
         'console_scripts': ['streamlink_helper=streamlink_helper:main']
     },
-    packages=find_packages("venv.lib.site_packages"),
-    url='github.com/cronos23/livestream_helper',
+    install_requires=["PyYAML", "requests"],
+    url='github.com/cronos23/streamlink_helper',
+    py_modules=["streamlink_helper", "util", "configuration"],
     license='',
     author='Ossi Kronlöf',
     author_email='ossikronlof@gmail.com',

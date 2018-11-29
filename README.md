@@ -3,12 +3,20 @@ Just a small script to pull followed online streams for opening in streamlink. S
 
 ## Installation
 
+### With PIP
+Install Python 3 if you don't have it, then run this in command prompt on Windows or the terminal in MacOS or Linux.
+```bash
+pip install streamlink
+pip install streamlink_helper
+```
+
+### Manual
+Make sure you have Python 3, Git and Streamlink installed, then run this in command prompt on Windows or the terminal in MacOS or Linux.
 ```bash
 git clone https://github.com/cronos23/streamlink_helper
 cd streamlink_helper
 python setup.py install
 ```
-Note that you need to have python3 and git installed and added to path to use this as is.
 
 ## Usage
 

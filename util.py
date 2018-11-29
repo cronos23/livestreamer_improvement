@@ -34,7 +34,7 @@ def create_stream_urls(follow_list):
     return online_streams
 
 
-def execute_livestreamer_command(stream_url, configuration):
+def execute_streamlink_command(stream_url, configuration):
     for quality in reversed(configuration.quality_order_of_preference):
         try:
             subprocess.check_output("streamlink "+stream_url+" "+quality, shell=True)

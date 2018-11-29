@@ -1,5 +1,5 @@
 from configuration import Configuration
-from util import followscraper, execute_livestreamer_command
+from util import followscraper, execute_streamlink_command
 
 
 def main():
@@ -23,7 +23,7 @@ class StreamlinkHelper:
             # TODO: Randomization when no number selected
             number_selection = int(input("Choose a number and press enter to select stream:"))
             selected_stream = selection_list[number_selection]
-            execute_livestreamer_command(selected_stream, configuration)
+            execute_streamlink_command(selected_stream, configuration)
         except ValueError:
             print("Please enter a number.")
         except IndexError:

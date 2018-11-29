@@ -3,12 +3,14 @@ from util import followscraper, execute_livestreamer_command
 
 
 def main():
-    livestreamer_improve = LivestreamerImprove()
+    streamlink_helper = StreamlinkHelper()
 
 
-class LivestreamerImprove:
+class StreamlinkHelper:
     def __init__(self):
         configuration = Configuration()
+        if not configuration.user_id:
+            return
         currently_online = followscraper(configuration.user_id)
         print("These streamers that you follow are currently online:")
         i = 0
@@ -17,9 +19,15 @@ class LivestreamerImprove:
             print("({}) {}".format(i, name))
             selection_list.append(url)
             i += 1
-        number_selection = int(input("Choose a number and press enter to select stream:"))
-        selected_stream = selection_list[number_selection]
-        execute_livestreamer_command(selected_stream, configuration)
+        try:
+            # TODO: Randomization when no number selected
+            number_selection = int(input("Choose a number and press enter to select stream:"))
+            selected_stream = selection_list[number_selection]
+            execute_livestreamer_command(selected_stream, configuration)
+        except ValueError:
+            print("Please enter a number.")
+        except IndexError:
+            print("Please enter a number on the list.")
 
 
 main()

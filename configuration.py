@@ -1,6 +1,6 @@
 import yaml
 import requests
-from util import CLIENT_ID
+from util import HEADERS
 
 
 class Configuration:
@@ -20,35 +20,39 @@ class Configuration:
             cfgdata = yaml.load(configfile)
             if cfgdata["ask_on_startup"]:
                 self.__user_configure()
+                if not self.user_id:
+                    return
             else:
-                self._user_id = cfgdata.user_id
-                self._quality_order_of_preference = cfgdata.quality_order_of_preference
+                self._user_id = cfgdata["user_id"]
+                self._quality_order_of_preference = cfgdata["quality_order_of_preference"]
             configfile.close()
         with open("config.yml", "w") as configfile:
             yaml.dump({"user_id": self._user_id,
                        "quality_order_of_preference": self._quality_order_of_preference,
-                       "ask_on_startup": "No"}, configfile)
+                       "ask_on_startup": False}, configfile)
             configfile.close()
 
     def __user_configure(self):
         print("Your settings have not been configured yet. Set them here in the console,"
               " or edit the config.yml by hand.")
         self._user_id = self.__get_user_id()
+        if not self._user_id:
+            return
         self._quality_order_of_preference = self.__get_quality()
 
     @staticmethod
     def __get_user_id():
         username = input("Please enter the name of your twitch.tv account: ")
-        headers = {
-            'Client-ID': CLIENT_ID
-        }
         params = {
             'login': username
         }
         user_id_api_url = "https://api.twitch.tv/helix/users"
-        user_data_response = requests.get(user_id_api_url, params=params, headers=headers)
-        user_id = user_data_response.json()["data"][0]["id"]
-        # TODO: error handling
+        user_data_response = requests.get(user_id_api_url, params=params, headers=HEADERS)
+        if not user_data_response.json()["data"]:
+            print("Couldn't get id for entered username")
+            return False
+        else:
+            user_id = user_data_response.json()["data"][0]["id"]
         return user_id
 
     @staticmethod

@@ -1,3 +1,2 @@
-# livestreamer_improvement
-Just a small script to make livestreamer more user friendly.
-You can find livestreamer at https://github.com/chrippa/livestreamer
+# Streamlink Helper
+Just a small script to pull followed online streams for opening in streamlink. Streamlink is a livestreamer fork, and can be found at https://github.com/streamlink/streamlink

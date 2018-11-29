@@ -6,7 +6,10 @@ from util import HEADERS
 
 class Configuration:
     def __init__(self):
-        directory = os.path.join(os.environ['APPDATA'], "streamlink_helper")
+        if os.name == "posix":
+            directory = os.path.join(os.environ['HOME'], ".config", "streamlink_helper")
+        else:
+            directory = os.path.join(os.environ['APPDATA'], "streamlink_helper")
         if not os.path.exists(directory):
             os.makedirs(directory)
         config_path = os.path.join(directory, "config.yml")

@@ -6,6 +6,7 @@ setup(
     entry_points={
         'console_scripts': ['streamlink_helper=streamlink_helper:main']
     },
+    download_url="https://github.com/cronos23/streamlink_helper/archive/0.1.tar.gz",
     install_requires=["PyYAML", "requests"],
     url='github.com/cronos23/streamlink_helper',
     py_modules=["streamlink_helper", "util", "configuration"],

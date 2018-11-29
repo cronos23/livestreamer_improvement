@@ -8,7 +8,7 @@ setup(
     },
     download_url="https://github.com/cronos23/streamlink_helper/archive/0.2.tar.gz",
     install_requires=["PyYAML", "requests"],
-    url='github.com/cronos23/streamlink_helper',
+    url='https://github.com/cronos23/streamlink_helper',
     py_modules=["streamlink_helper", "util", "configuration"],
     license='',
     author='Ossi Kronlöf',

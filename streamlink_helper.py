@@ -16,7 +16,10 @@ class StreamlinkHelper:
         i = 0
         selection_list = []
         for name, url in currently_online.items():
-            print("({}) {}".format(i, name))
+            try:
+                print("({}) {}".format(i, name))
+            except UnicodeEncodeError:
+                print("({}) {} \n".format(i, name.encode('utf-8')))
             selection_list.append(url)
             i += 1
         try:
@@ -29,3 +32,4 @@ class StreamlinkHelper:
         except IndexError:
             print("Please enter a number on the list.")
 
+main()

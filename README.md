@@ -10,12 +10,13 @@ pip install streamlink_helper
 ```
 
 ### Manual
-Make sure you have Python 3, Git and Streamlink installed, then run this in command prompt on Windows or the terminal in MacOS or Linux.
+Make sure you have Python 3 and Git installed, then run this in git bash/command prompt on Windows or the terminal in MacOS or Linux.
 ```bash
 git clone https://github.com/cronos23/streamlink_helper
 cd streamlink_helper
 python setup.py install
 ```
+<b>Note</b>: On unix systems, the ```python``` command is usually assigned for python 2. In this case, you should run ```python3 setup.py install``` instead.
 
 ## Usage
 

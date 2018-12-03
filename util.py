@@ -1,5 +1,6 @@
 import requests
 import subprocess
+import streamlink.api
 
 HEADERS = {
     'Client-ID': "zjcbgrilhcnzx1mt3fbcrpn7vekw64"
@@ -18,7 +19,7 @@ def followscraper(user_id):
 
 
 def create_stream_urls(follow_list):
-    # TODO: Add game name, stream title
+    # TODO: Fix unicode somehow
     live_api_url = "https://api.twitch.tv/helix/streams"
     game_api_url = "https://api.twitch.tv/helix/games"
     base_url = "twitch.tv/"
@@ -39,9 +40,10 @@ def create_stream_urls(follow_list):
             game = game_response.json()["data"][0]["name"]
         except IndexError:
             game = "N/A"
+        title = online_relation["title"]
         online_streams["{user} - {title} \n Streaming {game} to {viewer_count} viewers \n".format(
             user=online_relation["user_name"],
-            title=online_relation["title"],
+            title=title,
             game=game,
             viewer_count=online_relation["viewer_count"])] = base_url + online_relation["user_name"]
     return online_streams
@@ -49,8 +51,7 @@ def create_stream_urls(follow_list):
 
 def execute_streamlink_command(stream_url, configuration):
     for quality in reversed(configuration.quality_order_of_preference):
-        try:
+        if quality in streamlink.api.streams(stream_url).keys():
+            print("Opening stream in " + quality)
             subprocess.check_output("streamlink " + stream_url + " " + quality, shell=True)
             break
-        except subprocess.CalledProcessError:
-            pass

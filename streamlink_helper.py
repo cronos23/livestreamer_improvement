@@ -31,5 +31,3 @@ class StreamlinkHelper:
             print("Please enter a number.")
         except IndexError:
             print("Please enter a number on the list.")
-
-main()

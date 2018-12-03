@@ -1,5 +1,6 @@
 from configuration import Configuration
 from util import followscraper, execute_streamlink_command
+from random import randrange
 
 
 def main():
@@ -24,10 +25,19 @@ class StreamlinkHelper:
             i += 1
         try:
             # TODO: Randomization when no number selected
-            number_selection = int(input("Choose a number and press enter to select stream: "))
+            user_input = input("Choose a number to select stream or press enter to select by random: ")
+            if user_input == "":
+                if len(selection_list) == 1:
+                    number_selection = 0
+                else:
+                    number_selection = randrange(0, len(selection_list)-1)
+            else:
+                number_selection = int(user_input)
             selected_stream = selection_list[number_selection]
             execute_streamlink_command(selected_stream, configuration)
         except ValueError:
             print("Please enter a number.")
         except IndexError:
             print("Please enter a number on the list.")
+
+main()

@@ -19,7 +19,6 @@ def followscraper(user_id):
 
 
 def create_stream_urls(follow_list):
-    # TODO: Fix unicode somehow
     live_api_url = "https://api.twitch.tv/helix/streams"
     game_api_url = "https://api.twitch.tv/helix/games"
     base_url = "twitch.tv/"
